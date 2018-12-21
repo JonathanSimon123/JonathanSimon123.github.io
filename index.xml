@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chi-Chi Simon</title>
+    <link>https://JonathanSimon123.github.io/</link>
+    <description>Recent content on Chi-Chi Simon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>All rights reserved - 2018</copyright>
+    <lastBuildDate>Thu, 20 Dec 2018 20:23:12 +0800</lastBuildDate>
+    
+	<atom:link href="https://JonathanSimon123.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://JonathanSimon123.github.io/kubernetes/</link>
+      <pubDate>Thu, 20 Dec 2018 20:23:12 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/kubernetes/</guid>
+      <description>&lt;h3 id=&#34;kubernetes-kube-proxy运行机制分析&#34;&gt;Kubernetes kube-proxy运行机制分析&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一： Service,Endpoints与Pod的关系&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>https://JonathanSimon123.github.io/golang/</link>
+      <pubDate>Thu, 20 Dec 2018 20:23:04 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/golang/</guid>
+      <description> golang </description>
+    </item>
+    
+    <item>
+      <title>First</title>
+      <link>https://JonathanSimon123.github.io/first/</link>
+      <pubDate>Thu, 20 Dec 2018 20:05:47 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/first/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
