@@ -43,8 +43,9 @@
     <title>Kube Proxy &middot; Chi-Chi Simon</title>
 
     
-    <meta name="description" content=" 每台机器上都运行一个 kube-proxy 服务，它监听 API server 中 service 和 endpoint 的变化情况，并通过 iptables 等来为服务配置负载均衡（仅支持 TCP 和 UDP）。
- kube-proxy 可以运行在物理机上， 也可以通过 static pod 和 daemonset" />
+    <meta name="description" content="&lt;ul&gt;
+&lt;li&gt;每台机器上都运行一个 kube-proxy 服务，它监听 API server 中 service 和 endpoint 的变化情况，并通过 iptables 等来为服务配置负载均衡（仅支持 TCP 和 UDP）。&lt;/li&gt;
+&lt;/ul&gt;" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -167,7 +168,7 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://github.com/maoqide/hugo-docs/blob/master/content/cloud/apiserver.md">api-server</a>
+            	<a href="https://maoqide.github.io/cloud/apiserver/">api-server</a>
             </li>
         
             
@@ -231,13 +232,14 @@
 
     <section class="post-content">
       <ul>
-<li><p>每台机器上都运行一个 kube-proxy 服务，它监听 API server 中 service 和 endpoint 的变化情况，并通过 iptables 等来为服务配置负载均衡（仅支持 TCP 和 UDP）。</p></li>
-
-<li><p>kube-proxy 可以运行在物理机上， 也可以通过 static pod 和 daemonset 的方式运行</p></li>
+<li>每台机器上都运行一个 kube-proxy 服务，它监听 API server 中 service 和 endpoint 的变化情况，并通过 iptables 等来为服务配置负载均衡（仅支持 TCP 和 UDP）。</li>
 </ul>
 
-<p><img src="https://raw.github.com/chase-cheng/resource/master/images/mysql.jpeg" alt="proxy" /></p>
+<ul>
+<li>kube-proxy 可以运行在物理机上， 也可以通过 static pod 和 daemonset 的方式运行</li>
+</ul>
 
+<p><img src="https://raw.github.com/JonathanSimon123/blog-details/master/images/proxy.jpg" alt="q1" /></p>
     </section>
 
 
