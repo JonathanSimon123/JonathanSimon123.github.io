@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="结构型模式"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content="结构型模式 &middot; Chi-Chi Simon" />
+  	<meta property="og:site_name" content="Chi-Chi Simon" />
+  	<meta property="og:url" content="https://JonathanSimon123.github.io/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/" />
+
+    
+        
+            <meta property="og:image" content="/images/beijing.jpeg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-12-25T23:27:42&#43;08:00" />
+
+    
+    
+
+    <title>结构型模式 &middot; Chi-Chi Simon</title>
+
+    
+    <meta name="description" content="&lt;h4 id=&#34;外观模式&#34;&gt;外观模式&lt;/h4&gt;
+
+&lt;p&gt;API 为facade 模块的外观接口，大部分代码使用此接口简化对facade类的访问。&lt;/p&gt;
+
+&lt;p&gt;facade模块同时暴露了a和b 两个Module 的NewXXX和interface，其它代码如果需要使用细节功能时可以直接调用&lt;/p&gt;" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://JonathanSimon123.github.io/images/simon.png">
+	  <link rel="apple-touch-icon" href="https://JonathanSimon123.github.io/images/simon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://JonathanSimon123.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://JonathanSimon123.github.io/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+        <link href="http://feeds.feedburner.com/..." rel="alternate" type="application/rss+xml" title="Chi-Chi Simon" />
+    
+    <meta name="generator" content="Hugo 0.51" />
+
+    <link rel="canonical" href="https://JonathanSimon123.github.io/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": https://JonathanSimon123.github.ioimages/tou.png
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": https://JonathanSimon123.github.ioimages/tou.png,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": ,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ],
+        "description": IT软件和k8s工程师，开源爱好者。
+        
+    },
+    "headline": 结构型模式,
+    "name": 结构型模式,
+    "wordCount": 818,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": https://JonathanSimon123.github.io/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/,
+    "datePublished": 2017-12-25T23:27Z,
+    "dateModified": 2017-12-25T23:27Z,
+    
+    
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": https://JonathanSimon123.github.io/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-79101-12', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://JonathanSimon123.github.io/golang">Golang</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://maoqide.github.io/cloud/apiserver/">api-server</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://JonathanSimon123.github.io/kubernetes">Kubernetes</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://feeds.feedburner.com/...">Subscribe</a> </div>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://JonathanSimon123.github.io"><img src="https://JonathanSimon123.github.io/images/tou.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">结构型模式</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-12-25T23:27:42&#43;08:00">
+            Dec 25, 2017
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h4 id="外观模式">外观模式</h4>
+
+<p>API 为facade 模块的外观接口，大部分代码使用此接口简化对facade类的访问。</p>
+
+<p>facade模块同时暴露了a和b 两个Module 的NewXXX和interface，其它代码如果需要使用细节功能时可以直接调用</p>
+
+<pre><code>package facade
+
+import &quot;fmt&quot;
+
+func NewAPI() API {
+	return &amp;apiImpl{
+		a: NewAModuleAPI(),
+		b: NewBModuleAPI(),
+	}
+}
+
+//API is facade interface of facade package
+type API interface {
+	Test() string
+}
+
+//facade implement
+type apiImpl struct {
+	a AModuleAPI
+	b BModuleAPI
+}
+
+func (a *apiImpl) Test() string {
+	aRet := a.a.TestA()
+	bRet := a.b.TestB()
+	return fmt.Sprintf(&quot;%s\n%s&quot;, aRet, bRet)
+}
+
+//NewAModuleAPI return new AModuleAPI
+func NewAModuleAPI() AModuleAPI {
+	return &amp;aModuleImpl{}
+}
+
+//AModuleAPI ...
+type AModuleAPI interface {
+	TestA() string
+}
+
+type aModuleImpl struct{}
+
+func (*aModuleImpl) TestA() string {
+	return &quot;A module running&quot;
+}
+
+//NewBModuleAPI return new BModuleAPI
+func NewBModuleAPI() BModuleAPI {
+	return &amp;bModuleImpl{}
+}
+
+//BModuleAPI ...
+type BModuleAPI interface {
+	TestB() string
+}
+
+type bModuleImpl struct{}
+
+func (*bModuleImpl) TestB() string {
+	return &quot;B module running&quot;
+}
+
+</code></pre>
+
+<h4 id="适配器模式">适配器模式</h4>
+
+<p>适配器模式用于转换一种接口适配另一种接口。</p>
+
+<p>实际使用中Adaptee一般为接口，并且使用工厂函数生成实例。</p>
+
+<p>在Adapter中匿名组合Adaptee接口，所以Adapter类也拥有SpecificRequest实例方法，又因为Go语言中非入侵式接口特征，其实Adapter也适配Adaptee接口。</p>
+
+<pre><code>package adapter
+
+//Target 是适配的目标接口
+type Target interface {
+	Request() string
+}
+
+//Adaptee 是被适配的目标接口
+type Adaptee interface {
+	SpecificRequest() string
+}
+
+//NewAdaptee 是被适配接口的工厂函数
+func NewAdaptee() Adaptee {
+	return &amp;adapteeImpl{}
+}
+
+//AdapteeImpl 是被适配的目标类
+type adapteeImpl struct{}
+
+//SpecificRequest 是目标类的一个方法
+func (*adapteeImpl) SpecificRequest() string {
+	return &quot;adaptee method&quot;
+}
+
+//NewAdapter 是Adapter的工厂函数
+func NewAdapter(adaptee Adaptee) Target {
+	return &amp;adapter{
+		Adaptee: adaptee,
+	}
+}
+
+//Adapter 是转换Adaptee为Target接口的适配器
+type adapter struct {
+	Adaptee
+}
+
+//Request 实现Target接口
+func (a *adapter) Request() string {
+	return a.SpecificRequest()
+}
+</code></pre>
+
+<h4 id="代理模式">代理模式</h4>
+
+<p>代理模式用于延迟处理操作或者在进行实际操作前后进行其它处理。</p>
+
+<p>代理模式的常见用法有</p>
+
+<ul>
+<li>虚代理</li>
+<li>COW代理</li>
+<li>远程代理</li>
+<li>保护代理</li>
+<li>Cache 代理</li>
+<li>防火墙代理</li>
+<li>同步代理</li>
+<li>智能指引
+等。。。</li>
+</ul>
+
+<pre><code>package proxy
+
+type Subject interface {
+	Do() string
+}
+
+type RealSubject struct{}
+
+func (RealSubject) Do() string {
+	return &quot;real&quot;
+}
+
+type Proxy struct {
+	real RealSubject
+}
+
+func (p Proxy) Do() string {
+	var res string
+
+	// 在调用真实对象之前的工作，检查缓存，判断权限，实例化真实对象等。。
+	res += &quot;pre:&quot;
+
+	// 调用真实对象
+	res += p.real.Do()
+
+	// 调用之后的操作，如缓存结果，对结果进行处理等。。
+	res += &quot;:after&quot;
+
+	return res
+
+}
+
+</code></pre>
+
+<h4 id="组合模式">组合模式</h4>
+
+<p>组合模式统一对象和对象集，使得使用相同接口使用对象和对象集。</p>
+
+<p>组合模式常用于树状结构，用于统一叶子节点和树节点的访问，并且可以用于应用某一操作到所有子节点。</p>
+
+<pre><code>package composite
+
+import &quot;fmt&quot;
+
+type Component interface {
+	Parent() Component
+	SetParent(Component)
+	Name() string
+	SetName(string)
+	AddChild(Component)
+	Print(string)
+}
+
+const (
+	LeafNode = iota
+	CompositeNode
+)
+
+func NewComponent(kind int, name string) Component {
+	var c Component
+	switch kind {
+	case LeafNode:
+		c = NewLeaf()
+	case CompositeNode:
+		c = NewComposite()
+	}
+
+	c.SetName(name)
+	return c
+}
+
+type component struct {
+	parent Component
+	name   string
+}
+
+func (c *component) Parent() Component {
+	return c.parent
+}
+
+func (c *component) SetParent(parent Component) {
+	c.parent = parent
+}
+
+func (c *component) Name() string {
+	return c.name
+}
+
+func (c *component) SetName(name string) {
+	c.name = name
+}
+
+func (c *component) AddChild(Component) {}
+
+func (c *component) Print(string) {}
+
+type Leaf struct {
+	component
+}
+
+func NewLeaf() *Leaf {
+	return &amp;Leaf{}
+}
+
+func (c *Leaf) Print(pre string) {
+	fmt.Printf(&quot;%s-%s\n&quot;, pre, c.Name())
+}
+
+type Composite struct {
+	component
+	childs []Component
+}
+
+func NewComposite() *Composite {
+	return &amp;Composite{
+		childs: make([]Component, 0),
+	}
+}
+
+func (c *Composite) AddChild(child Component) {
+	child.SetParent(c)
+	c.childs = append(c.childs, child)
+}
+
+func (c *Composite) Print(pre string) {
+	fmt.Printf(&quot;%s+%s\n&quot;, pre, c.Name())
+	pre += &quot; &quot;
+	for _, comp := range c.childs {
+		comp.Print(pre)
+	}
+}
+
+</code></pre>
+
+<h4 id="享元模式">享元模式</h4>
+
+<p>享元模式从对象中剥离出不发生改变且多个实例需要的重复数据，独立出一个享元，使多个对象共享，从而节省内存以及减少对象数量。</p>
+
+<pre><code>package flyweight
+
+import &quot;fmt&quot;
+
+type ImageFlyweightFactory struct {
+	maps map[string]*ImageFlyweight
+}
+
+var imageFactory *ImageFlyweightFactory
+
+func GetImageFlyweightFactory() *ImageFlyweightFactory {
+	if imageFactory == nil {
+		imageFactory = &amp;ImageFlyweightFactory{
+			maps: make(map[string]*ImageFlyweight),
+		}
+	}
+	return imageFactory
+}
+
+func (f *ImageFlyweightFactory) Get(filename string) *ImageFlyweight {
+	image := f.maps[filename]
+	if image == nil {
+		image = NewImageFlyweight(filename)
+		f.maps[filename] = image
+	}
+
+	return image
+}
+
+type ImageFlyweight struct {
+	data string
+}
+
+func NewImageFlyweight(filename string) *ImageFlyweight {
+	// Load image file
+	data := fmt.Sprintf(&quot;image data %s&quot;, filename)
+	return &amp;ImageFlyweight{
+		data: data,
+	}
+}
+
+func (i *ImageFlyweight) Data() string {
+	return i.data
+}
+
+type ImageViewer struct {
+	*ImageFlyweight
+}
+
+func NewImageViewer(filename string) *ImageViewer {
+	image := GetImageFlyweightFactory().Get(filename)
+	return &amp;ImageViewer{
+		ImageFlyweight: image,
+	}
+}
+
+func (i *ImageViewer) Display() {
+	fmt.Printf(&quot;Display: %s\n&quot;, i.Data())
+}
+</code></pre>
+
+<h4 id="装饰模式">装饰模式</h4>
+
+<p>装饰模式使用对象组合的方式动态改变或增加对象行为。</p>
+
+<p>Go语言借助于匿名组合和非入侵式接口可以很方便实现装饰模式。</p>
+
+<p>使用匿名组合，在装饰器中不必显式定义转调原对象方法。</p>
+
+<pre><code>package decorator
+
+type Component interface {
+	Calc() int
+}
+
+type ConcreteComponent struct{}
+
+func (*ConcreteComponent) Calc() int {
+	return 0
+}
+
+type MulDecorator struct {
+	Component
+	num int
+}
+
+func WarpMulDecorator(c Component, num int) Component {
+	return &amp;MulDecorator{
+		Component: c,
+		num:       num,
+	}
+}
+
+func (d *MulDecorator) Calc() int {
+	return d.Component.Calc() * d.num
+}
+
+type AddDecorator struct {
+	Component
+	num int
+}
+
+func WarpAddDecorator(c Component, num int) Component {
+	return &amp;AddDecorator{
+		Component: c,
+		num:       num,
+	}
+}
+
+func (d *AddDecorator) Calc() int {
+	return d.Component.Calc() + d.num
+}
+</code></pre>
+
+<h4 id="桥接模式">桥接模式</h4>
+
+<p>桥接模式分离抽象部分和实现部分。使得两部分独立扩展。</p>
+
+<p>桥接模式类似于策略模式，区别在于策略模式封装一系列算法使得算法可以互相替换。</p>
+
+<p>策略模式使抽象部分和实现部分分离，可以独立变化。</p>
+
+<pre><code>package bridge
+
+import &quot;fmt&quot;
+
+type AbstractMessage interface {
+	SendMessage(text, to string)
+}
+
+type MessageImplementer interface {
+	Send(text, to string)
+}
+
+type MessageSMS struct{}
+
+func ViaSMS() MessageImplementer {
+	return &amp;MessageSMS{}
+}
+
+func (*MessageSMS) Send(text, to string) {
+	fmt.Printf(&quot;send %s to %s via SMS&quot;, text, to)
+}
+
+type MessageEmail struct{}
+
+func ViaEmail() MessageImplementer {
+	return &amp;MessageEmail{}
+}
+
+func (*MessageEmail) Send(text, to string) {
+	fmt.Printf(&quot;send %s to %s via Email&quot;, text, to)
+}
+
+type CommonMessage struct {
+	method MessageImplementer
+}
+
+func NewCommonMessage(method MessageImplementer) *CommonMessage {
+	return &amp;CommonMessage{
+		method: method,
+	}
+}
+
+func (m *CommonMessage) SendMessage(text, to string) {
+	m.method.Send(text, to)
+}
+
+type UrgencyMessage struct {
+	method MessageImplementer
+}
+
+func NewUrgencyMessage(method MessageImplementer) *UrgencyMessage {
+	return &amp;UrgencyMessage{
+		method: method,
+	}
+}
+
+func (m *UrgencyMessage) SendMessage(text, to string) {
+	m.method.Send(fmt.Sprintf(&quot;[Urgency] %s&quot;, text), to)
+}
+
+</code></pre>
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="https://JonathanSimon123.github.io" style="background-image: url(/images/tou.png)"><span class="hidden">Chi-Chi Simon's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="https://JonathanSimon123.github.io">Chi-Chi Simon</a></h4>
+  
+  <p>IT软件和k8s工程师，开源爱好者。</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Chi-Chi Simon</span>
+    
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=%e7%bb%93%e6%9e%84%e5%9e%8b%e6%a8%a1%e5%bc%8f&nbsp;-&nbsp;Chi-Chi%20Simon&amp;url=https%3a%2f%2fJonathanSimon123.github.io%2f%25E7%25BB%2593%25E6%259E%2584%25E5%259E%258B%25E6%25A8%25A1%25E5%25BC%258F%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fJonathanSimon123.github.io%2f%25E7%25BB%2593%25E6%259E%2584%25E5%259E%258B%25E6%25A8%25A1%25E5%25BC%258F%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fJonathanSimon123.github.io%2f%25E7%25BB%2593%25E6%259E%2584%25E5%259E%258B%25E6%25A8%25A1%25E5%25BC%258F%2f&amp;description=%e7%bb%93%e6%9e%84%e5%9e%8b%e6%a8%a1%e5%bc%8f"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fJonathanSimon123.github.io%2f%25E7%25BB%2593%25E6%259E%2584%25E5%259E%258B%25E6%25A8%25A1%25E5%25BC%258F%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/JonathanSimon123.github.io\/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F\/";  
+this.page.identifier = "https:\/\/JonathanSimon123.github.io\/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://simon.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="https://JonathanSimon123.github.io/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/">
+          <section class="post">
+              <h2>行为型模式</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="https://JonathanSimon123.github.io/%E5%88%9B%E5%BB%BA%E8%80%85%E6%A8%A1%E5%BC%8F/">
+          <section class="post">
+              <h2>创建者模式</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Chi-Chi Simon</a> All rights reserved - 2018</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://JonathanSimon123.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://JonathanSimon123.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://JonathanSimon123.github.io/js/index.js"></script>
+    
+</body>
+</html>
+
