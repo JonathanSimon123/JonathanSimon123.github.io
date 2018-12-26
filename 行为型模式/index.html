@@ -39,7 +39,13 @@
     <title>行为型模式 &middot; Chi-Chi Simon</title>
 
     
-    <meta name="description" content="" />
+    <meta name="description" content="&lt;h4 id=&#34;中介者模式&#34;&gt;中介者模式&lt;/h4&gt;
+
+&lt;p&gt;中介者模式封装对象之间互交，使依赖变的简单，并且使复杂互交简单化，封装在中介者中。&lt;/p&gt;
+
+&lt;p&gt;例子中的中介者使用单例模式生成中介者。&lt;/p&gt;
+
+&lt;p&gt;中介者的change使用switch判断类型。&lt;/p&gt;" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -106,8 +112,8 @@
     },
     "headline": 行为型模式,
     "name": 行为型模式,
-    "wordCount": 0,
-    "timeRequired": "PT0M",
+    "wordCount": 1602,
+    "timeRequired": "PT8M",
     "inLanguage": {
       "@type": "Language",
       "alternateName": en
@@ -221,7 +227,860 @@
     </header>
 
     <section class="post-content">
-      
+      <h4 id="中介者模式">中介者模式</h4>
+
+<p>中介者模式封装对象之间互交，使依赖变的简单，并且使复杂互交简单化，封装在中介者中。</p>
+
+<p>例子中的中介者使用单例模式生成中介者。</p>
+
+<p>中介者的change使用switch判断类型。</p>
+
+<pre><code>package mediator
+
+import (
+	&quot;fmt&quot;
+	&quot;strings&quot;
+)
+
+type CDDriver struct {
+	Data string
+}
+
+func (c *CDDriver) ReadData() {
+	c.Data = &quot;music,image&quot;
+
+	fmt.Printf(&quot;CDDriver: reading data %s\n&quot;, c.Data)
+	GetMediatorInstance().changed(c)
+}
+
+type CPU struct {
+	Video string
+	Sound string
+}
+
+func (c *CPU) Process(data string) {
+	sp := strings.Split(data, &quot;,&quot;)
+	c.Sound = sp[0]
+	c.Video = sp[1]
+
+	fmt.Printf(&quot;CPU: split data with Sound %s, Video %s\n&quot;, c.Sound, c.Video)
+	GetMediatorInstance().changed(c)
+}
+
+type VideoCard struct {
+	Data string
+}
+
+func (v *VideoCard) Display(data string) {
+	v.Data = data
+	fmt.Printf(&quot;VideoCard: display %s\n&quot;, v.Data)
+	GetMediatorInstance().changed(v)
+}
+
+type SoundCard struct {
+	Data string
+}
+
+func (s *SoundCard) Play(data string) {
+	s.Data = data
+	fmt.Printf(&quot;SoundCard: play %s\n&quot;, s.Data)
+	GetMediatorInstance().changed(s)
+}
+
+type Mediator struct {
+	CD    *CDDriver
+	CPU   *CPU
+	Video *VideoCard
+	Sound *SoundCard
+}
+
+var mediator *Mediator
+
+func GetMediatorInstance() *Mediator {
+	if mediator == nil {
+		mediator = &amp;Mediator{}
+	}
+	return mediator
+}
+
+func (m *Mediator) changed(i interface{}) {
+	switch inst := i.(type) {
+	case *CDDriver:
+		m.CPU.Process(inst.Data)
+	case *CPU:
+		m.Sound.Play(inst.Sound)
+		m.Video.Display(inst.Video)
+	}
+}
+</code></pre>
+
+<h4 id="观察者模式">观察者模式</h4>
+
+<p>观察者模式用于触发联动。</p>
+
+<p>一个对象的改变会触发其它观察者的相关动作，而此对象无需关心连动对象的具体实现。</p>
+
+<pre><code>
+package observer
+
+import &quot;fmt&quot;
+
+type Subject struct {
+	observers []Observer
+	context   string
+}
+
+func NewSubject() *Subject {
+	return &amp;Subject{
+		observers: make([]Observer, 0),
+	}
+}
+
+func (s *Subject) Attach(o Observer) {
+	s.observers = append(s.observers, o)
+}
+
+func (s *Subject) notify() {
+	for _, o := range s.observers {
+		o.Update(s)
+	}
+}
+
+func (s *Subject) UpdateContext(context string) {
+	s.context = context
+	s.notify()
+}
+
+type Observer interface {
+	Update(*Subject)
+}
+
+type Reader struct {
+	name string
+}
+
+func NewReader(name string) *Reader {
+	return &amp;Reader{
+		name: name,
+	}
+}
+
+func (r *Reader) Update(s *Subject) {
+	fmt.Printf(&quot;%s receive %s\n&quot;, r.name, s.context)
+}
+</code></pre>
+
+<h4 id="命令模式">命令模式</h4>
+
+<p>命令模式本质是把某个对象的方法调用封装到对象中，方便传递、存储、调用。</p>
+
+<p>示例中把主板单中的启动(start)方法和重启(reboot)方法封装为命令对象，再传递到主机(box)对象中。于两个按钮进行绑定：</p>
+
+<p>第一个机箱(box1)设置按钮1(buttion1) 为开机按钮2(buttion2)为重启。
+第二个机箱(box1)设置按钮2(buttion2) 为开机按钮1(buttion1)为重启。
+从而得到配置灵活性。</p>
+
+<p>除了配置灵活外，使用命令模式还可以用作：</p>
+
+<p>批处理
+任务队列
+undo, redo
+等把具体命令封装到对象中使用的场合</p>
+
+<pre><code>package command
+
+import &quot;fmt&quot;
+
+type Command interface {
+	Execute()
+}
+
+type StartCommand struct {
+	mb *MotherBoard
+}
+
+func NewStartCommand(mb *MotherBoard) *StartCommand {
+	return &amp;StartCommand{
+		mb: mb,
+	}
+}
+
+func (c *StartCommand) Execute() {
+	c.mb.Start()
+}
+
+type RebootCommand struct {
+	mb *MotherBoard
+}
+
+func NewRebootCommand(mb *MotherBoard) *RebootCommand {
+	return &amp;RebootCommand{
+		mb: mb,
+	}
+}
+
+func (c *RebootCommand) Execute() {
+	c.mb.Reboot()
+}
+
+type MotherBoard struct{}
+
+func (*MotherBoard) Start() {
+	fmt.Print(&quot;system starting\n&quot;)
+}
+
+func (*MotherBoard) Reboot() {
+	fmt.Print(&quot;system rebooting\n&quot;)
+}
+
+type Box struct {
+	buttion1 Command
+	buttion2 Command
+}
+
+func NewBox(buttion1, buttion2 Command) *Box {
+	return &amp;Box{
+		buttion1: buttion1,
+		buttion2: buttion2,
+	}
+}
+
+func (b *Box) PressButtion1() {
+	b.buttion1.Execute()
+}
+
+func (b *Box) PressButtion2() {
+	b.buttion2.Execute()
+}
+</code></pre>
+
+<h4 id="送代器模式">送代器模式</h4>
+
+<p>送代器模式用于使用相同方式送代不同类型集合或者隐藏集合类型的具体实现。</p>
+
+<p>可以使用送代器模式使遍历同时应用送代策略，如请求新对象、过滤、处理对象等。</p>
+
+<pre><code>package iterator
+
+import &quot;fmt&quot;
+
+type Aggregate interface {
+	Iterator() Iterator
+}
+
+type Iterator interface {
+	First()
+	IsDone() bool
+	Next() interface{}
+}
+
+type Numbers struct {
+	start, end int
+}
+
+func NewNumbers(start, end int) *Numbers {
+	return &amp;Numbers{
+		start: start,
+		end:   end,
+	}
+}
+
+func (n *Numbers) Iterator() Iterator {
+	return &amp;NumbersIterator{
+		numbers: n,
+		next:    n.start,
+	}
+}
+
+type NumbersIterator struct {
+	numbers *Numbers
+	next    int
+}
+
+func (i *NumbersIterator) First() {
+	i.next = i.numbers.start
+}
+
+func (i *NumbersIterator) IsDone() bool {
+	return i.next &gt; i.numbers.end
+}
+
+func (i *NumbersIterator) Next() interface{} {
+	if !i.IsDone() {
+		next := i.next
+		i.next++
+		return next
+	}
+	return nil
+}
+
+func IteratorPrint(i Iterator) {
+	for i.First(); !i.IsDone(); {
+		c := i.Next()
+		fmt.Printf(&quot;%#v\n&quot;, c)
+	}
+}
+</code></pre>
+
+<h4 id="模版方法模式">模版方法模式</h4>
+
+<p>模版方法模式使用继承机制，把通用步骤和通用方法放到父类中，把具体实现延迟到子类中实现。使得实现符合开闭原则。</p>
+
+<p>如实例代码中通用步骤在父类中实现（准备、下载、保存、收尾）下载和保存的具体实现留到子类中，并且提供 保存方法的默认实现。</p>
+
+<p>因为Golang不提供继承机制，需要使用匿名组合模拟实现继承。</p>
+
+<p>此处需要注意：因为父类需要调用子类方法，所以子类需要匿名组合父类的同时，父类需要持有子类的引用。</p>
+
+<pre><code>package templatemethod
+
+import &quot;fmt&quot;
+
+type Downloader interface {
+	Download(uri string)
+}
+
+type template struct {
+	implement
+	uri string
+}
+
+type implement interface {
+	download()
+	save()
+}
+
+func newTemplate(impl implement) *template {
+	return &amp;template{
+		implement: impl,
+	}
+}
+
+func (t *template) Download(uri string) {
+	t.uri = uri
+	fmt.Print(&quot;prepare downloading\n&quot;)
+	t.implement.download()
+	t.implement.save()
+	fmt.Print(&quot;finish downloading\n&quot;)
+}
+
+func (t *template) save() {
+	fmt.Print(&quot;default save\n&quot;)
+}
+
+type HTTPDownloader struct {
+	*template
+}
+
+func NewHTTPDownloader() Downloader {
+	downloader := &amp;HTTPDownloader{}
+	template := newTemplate(downloader)
+	downloader.template = template
+	return downloader
+}
+
+func (d *HTTPDownloader) download() {
+	fmt.Printf(&quot;download %s via http\n&quot;, d.uri)
+}
+
+func (*HTTPDownloader) save() {
+	fmt.Printf(&quot;http save\n&quot;)
+}
+
+type FTPDownloader struct {
+	*template
+}
+
+func NewFTPDownloader() Downloader {
+	downloader := &amp;FTPDownloader{}
+	template := newTemplate(downloader)
+	downloader.template = template
+	return downloader
+}
+
+func (d *FTPDownloader) download() {
+	fmt.Printf(&quot;download %s via ftp\n&quot;, d.uri)
+}
+
+</code></pre>
+
+<h4 id="策略模式">策略模式</h4>
+
+<p>定义一系列算法，让这些算法在运行时可以互换，使得分离算法，符合开闭原则。</p>
+
+<pre><code>package strategy
+
+import &quot;fmt&quot;
+
+type PaymentContext struct {
+	Name, CardID string
+	Money        int
+	payment      PaymentStrategy
+}
+
+func NewPaymentContext(name, cardid string, money int, payment PaymentStrategy) *PaymentContext {
+	return &amp;PaymentContext{
+		Name:    name,
+		CardID:  cardid,
+		Money:   money,
+		payment: payment,
+	}
+}
+
+func (p *PaymentContext) Pay() {
+	p.payment.Pay(p)
+}
+
+type PaymentStrategy interface {
+	Pay(*PaymentContext)
+}
+
+type Cash struct{}
+
+func (*Cash) Pay(ctx *PaymentContext) {
+	fmt.Printf(&quot;Pay $%d to %s by cash&quot;, ctx.Money, ctx.Name)
+}
+
+type Bank struct{}
+
+func (*Bank) Pay(ctx *PaymentContext) {
+	fmt.Printf(&quot;Pay $%d to %s by bank account %s&quot;, ctx.Money, ctx.Name, ctx.CardID)
+
+}
+</code></pre>
+
+<h4 id="状态模式">状态模式</h4>
+
+<p>状态模式用于分离状态和行为。</p>
+
+<pre><code>package state
+
+import &quot;fmt&quot;
+
+type Week interface {
+	Today()
+	Next(*DayContext)
+}
+
+type DayContext struct {
+	today Week
+}
+
+func NewDayContext() *DayContext {
+	return &amp;DayContext{
+		today: &amp;Sunday{},
+	}
+}
+
+func (d *DayContext) Today() {
+	d.today.Today()
+}
+
+func (d *DayContext) Next() {
+	d.today.Next(d)
+}
+
+type Sunday struct{}
+
+func (*Sunday) Today() {
+	fmt.Printf(&quot;Sunday\n&quot;)
+}
+
+func (*Sunday) Next(ctx *DayContext) {
+	ctx.today = &amp;Monday{}
+}
+
+type Monday struct{}
+
+func (*Monday) Today() {
+	fmt.Printf(&quot;Monday\n&quot;)
+}
+
+func (*Monday) Next(ctx *DayContext) {
+	ctx.today = &amp;Tuesday{}
+}
+
+type Tuesday struct{}
+
+func (*Tuesday) Today() {
+	fmt.Printf(&quot;Tuesday\n&quot;)
+}
+
+func (*Tuesday) Next(ctx *DayContext) {
+	ctx.today = &amp;Wednesday{}
+}
+
+type Wednesday struct{}
+
+func (*Wednesday) Today() {
+	fmt.Printf(&quot;Wednesday\n&quot;)
+}
+
+func (*Wednesday) Next(ctx *DayContext) {
+	ctx.today = &amp;Thursday{}
+}
+
+type Thursday struct{}
+
+func (*Thursday) Today() {
+	fmt.Printf(&quot;Thursday\n&quot;)
+}
+
+func (*Thursday) Next(ctx *DayContext) {
+	ctx.today = &amp;Friday{}
+}
+
+type Friday struct{}
+
+func (*Friday) Today() {
+	fmt.Printf(&quot;Friday\n&quot;)
+}
+
+func (*Friday) Next(ctx *DayContext) {
+	ctx.today = &amp;Saturday{}
+}
+
+type Saturday struct{}
+
+func (*Saturday) Today() {
+	fmt.Printf(&quot;Saturday\n&quot;)
+}
+
+func (*Saturday) Next(ctx *DayContext) {
+	ctx.today = &amp;Sunday{}
+}
+</code></pre>
+
+<h4 id="备忘录模式">备忘录模式</h4>
+
+<p>备忘录模式用于保存程序内部状态到外部，又不希望暴露内部状态的情形。</p>
+
+<p>程序内部状态使用窄接口船体给外部进行存储，从而不暴露程序实现细节。</p>
+
+<p>备忘录模式同时可以离线保存内部状态，如保存到数据库，文件等。</p>
+
+<pre><code>package memento
+
+import &quot;fmt&quot;
+
+type Memento interface{}
+
+type Game struct {
+	hp, mp int
+}
+
+type gameMemento struct {
+	hp, mp int
+}
+
+func (g *Game) Play(mpDelta, hpDelta int) {
+	g.mp += mpDelta
+	g.hp += hpDelta
+}
+
+func (g *Game) Save() Memento {
+	return &amp;gameMemento{
+		hp: g.hp,
+		mp: g.mp,
+	}
+}
+
+func (g *Game) Load(m Memento) {
+	gm := m.(*gameMemento)
+	g.mp = gm.mp
+	g.hp = gm.hp
+}
+
+func (g *Game) Status() {
+	fmt.Printf(&quot;Current HP:%d, MP:%d\n&quot;, g.hp, g.mp)
+}
+
+</code></pre>
+
+<h4 id="解释器模式">解释器模式</h4>
+
+<p>解释器模式定义一套语言文法，并设计该语言解释器，使用户能使用特定文法控制解释器行为。</p>
+
+<p>解释器模式的意义在于，它分离多种复杂功能的实现，每个功能只需关注自身的解释。</p>
+
+<p>对于调用者不用关心内部的解释器的工作，只需要用简单的方式组合命令就可以。</p>
+
+<pre><code>package interpreter
+
+import (
+	&quot;strconv&quot;
+	&quot;strings&quot;
+)
+
+type Node interface {
+	Interpret() int
+}
+
+type ValNode struct {
+	val int
+}
+
+func (n *ValNode) Interpret() int {
+	return n.val
+}
+
+type AddNode struct {
+	left, right Node
+}
+
+func (n *AddNode) Interpret() int {
+	return n.left.Interpret() + n.right.Interpret()
+}
+
+type MinNode struct {
+	left, right Node
+}
+
+func (n *MinNode) Interpret() int {
+	return n.left.Interpret() - n.right.Interpret()
+}
+
+type Parser struct {
+	exp   []string
+	index int
+	prev  Node
+}
+
+func (p *Parser) Parse(exp string) {
+	p.exp = strings.Split(exp, &quot; &quot;)
+
+	for {
+		if p.index &gt;= len(p.exp) {
+			return
+		}
+		switch p.exp[p.index] {
+		case &quot;+&quot;:
+			p.prev = p.newAddNode()
+		case &quot;-&quot;:
+			p.prev = p.newMinNode()
+		default:
+			p.prev = p.newValNode()
+		}
+	}
+}
+
+func (p *Parser) newAddNode() Node {
+	p.index++
+	return &amp;AddNode{
+		left:  p.prev,
+		right: p.newValNode(),
+	}
+}
+
+func (p *Parser) newMinNode() Node {
+	p.index++
+	return &amp;MinNode{
+		left:  p.prev,
+		right: p.newValNode(),
+	}
+}
+
+func (p *Parser) newValNode() Node {
+	v, _ := strconv.Atoi(p.exp[p.index])
+	p.index++
+	return &amp;ValNode{
+		val: v,
+	}
+}
+
+func (p *Parser) Result() Node {
+	return p.prev
+}
+</code></pre>
+
+<h4 id="职责链模式">职责链模式</h4>
+
+<p>职责链模式用于分离不同职责，并且动态组合相关职责。</p>
+
+<p>Golang实现职责链模式时候，因为没有继承的支持，使用链对象包涵职责的方式，即：</p>
+
+<p>链对象包含当前职责对象以及下一个职责链。
+职责对象提供接口表示是否能处理对应请求。
+职责对象提供处理函数处理相关职责。
+同时可在职责链类中实现职责接口相关函数，使职责链对象可以当做一般职责对象是用。</p>
+
+<pre><code>package chain
+
+import &quot;fmt&quot;
+
+type Manager interface {
+	HaveRight(money int) bool
+	HandleFeeRequest(name string, money int) bool
+}
+
+type RequestChain struct {
+	Manager
+	successor *RequestChain
+}
+
+func (r *RequestChain) SetSuccessor(m *RequestChain) {
+	r.successor = m
+}
+
+func (r *RequestChain) HandleFeeRequest(name string, money int) bool {
+	if r.Manager.HaveRight(money) {
+		return r.Manager.HandleFeeRequest(name, money)
+	}
+	if r.successor != nil {
+		return r.successor.HandleFeeRequest(name, money)
+	}
+	return false
+}
+
+func (r *RequestChain) HaveRight(money int) bool {
+	return true
+}
+
+type ProjectManager struct{}
+
+func NewProjectManagerChain() *RequestChain {
+	return &amp;RequestChain{
+		Manager: &amp;ProjectManager{},
+	}
+}
+
+func (*ProjectManager) HaveRight(money int) bool {
+	return money &lt; 500
+}
+
+func (*ProjectManager) HandleFeeRequest(name string, money int) bool {
+	if name == &quot;bob&quot; {
+		fmt.Printf(&quot;Project manager permit %s %d fee request\n&quot;, name, money)
+		return true
+	}
+	fmt.Printf(&quot;Project manager don't permit %s %d fee request\n&quot;, name, money)
+	return false
+}
+
+type DepManager struct{}
+
+func NewDepManagerChain() *RequestChain {
+	return &amp;RequestChain{
+		Manager: &amp;DepManager{},
+	}
+}
+
+func (*DepManager) HaveRight(money int) bool {
+	return money &lt; 5000
+}
+
+func (*DepManager) HandleFeeRequest(name string, money int) bool {
+	if name == &quot;tom&quot; {
+		fmt.Printf(&quot;Dep manager permit %s %d fee request\n&quot;, name, money)
+		return true
+	}
+	fmt.Printf(&quot;Dep manager don't permit %s %d fee request\n&quot;, name, money)
+	return false
+}
+
+type GeneralManager struct{}
+
+func NewGeneralManagerChain() *RequestChain {
+	return &amp;RequestChain{
+		Manager: &amp;GeneralManager{},
+	}
+}
+
+func (*GeneralManager) HaveRight(money int) bool {
+	return true
+}
+
+func (*GeneralManager) HandleFeeRequest(name string, money int) bool {
+	if name == &quot;ada&quot; {
+		fmt.Printf(&quot;General manager permit %s %d fee request\n&quot;, name, money)
+		return true
+	}
+	fmt.Printf(&quot;General manager don't permit %s %d fee request\n&quot;, name, money)
+	return false
+}
+</code></pre>
+
+<h4 id="访问者模式">访问者模式</h4>
+
+<p>访问者模式可以给一系列对象透明的添加功能，并且把相关代码封装到一个类中。</p>
+
+<p>对象只要预留访问者接口Accept则后期为对象添加功能的时候就不需要改动对象。</p>
+
+<pre><code>package visitor
+
+import &quot;fmt&quot;
+
+type Customer interface {
+	Accept(Visitor)
+}
+
+type Visitor interface {
+	Visit(Customer)
+}
+
+type EnterpriseCustomer struct {
+	name string
+}
+
+type CustomerCol struct {
+	customers []Customer
+}
+
+func (c *CustomerCol) Add(customer Customer) {
+	c.customers = append(c.customers, customer)
+}
+
+func (c *CustomerCol) Accept(visitor Visitor) {
+	for _, customer := range c.customers {
+		customer.Accept(visitor)
+	}
+}
+
+func NewEnterpriseCustomer(name string) *EnterpriseCustomer {
+	return &amp;EnterpriseCustomer{
+		name: name,
+	}
+}
+
+func (c *EnterpriseCustomer) Accept(visitor Visitor) {
+	visitor.Visit(c)
+}
+
+type IndividualCustomer struct {
+	name string
+}
+
+func NewIndividualCustomer(name string) *IndividualCustomer {
+	return &amp;IndividualCustomer{
+		name: name,
+	}
+}
+
+func (c *IndividualCustomer) Accept(visitor Visitor) {
+	visitor.Visit(c)
+}
+
+type ServiceRequestVisitor struct{}
+
+func (*ServiceRequestVisitor) Visit(customer Customer) {
+	switch c := customer.(type) {
+	case *EnterpriseCustomer:
+		fmt.Printf(&quot;serving enterprise customer %s\n&quot;, c.name)
+	case *IndividualCustomer:
+		fmt.Printf(&quot;serving individual customer %s\n&quot;, c.name)
+	}
+}
+
+// only for enterprise
+type AnalysisVisitor struct{}
+
+func (*AnalysisVisitor) Visit(customer Customer) {
+	switch c := customer.(type) {
+	case *EnterpriseCustomer:
+		fmt.Printf(&quot;analysis enterprise customer %s\n&quot;, c.name)
+	}
+}
+</code></pre>
     </section>
 
 

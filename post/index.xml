@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>All rights reserved - 2018</copyright>
-    <lastBuildDate>Fri, 21 Dec 2018 15:02:46 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 26 Dec 2018 23:36:34 +0800</lastBuildDate>
     
 	<atom:link href="https://JonathanSimon123.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kubernetes面试题目(基础篇一) </title>
+      <link>https://JonathanSimon123.github.io/kubernetes%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E5%9F%BA%E7%A1%80%E7%AF%87%E4%B8%80/</link>
+      <pubDate>Wed, 26 Dec 2018 23:36:34 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/kubernetes%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E5%9F%BA%E7%A1%80%E7%AF%87%E4%B8%80/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;基础篇主要面向的初级、中级开发工程师职位，主要考察对k8s本身的理解。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Kube Proxy</title>
@@ -55,7 +66,13 @@
       <pubDate>Mon, 25 Dec 2017 23:33:48 +0800</pubDate>
       
       <guid>https://JonathanSimon123.github.io/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
-      <description></description>
+      <description>&lt;h4 id=&#34;中介者模式&#34;&gt;中介者模式&lt;/h4&gt;
+
+&lt;p&gt;中介者模式封装对象之间互交，使依赖变的简单，并且使复杂互交简单化，封装在中介者中。&lt;/p&gt;
+
+&lt;p&gt;例子中的中介者使用单例模式生成中介者。&lt;/p&gt;
+
+&lt;p&gt;中介者的change使用switch判断类型。&lt;/p&gt;</description>
     </item>
     
     <item>
