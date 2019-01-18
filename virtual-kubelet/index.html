@@ -229,7 +229,7 @@
 
 <p>在讲virtual kubelet之前，先理解一下kubelet在kubernetes中扮演什么样的角色，从。抽象的角度看一下kubernetes的运行原理。kubernetes是一个持续的和解循环。期望状态被提交给API Server，然后controller manager和kubelet以及系统内的其他组件不断努力实现这中期望的状态。</p>
 
-<p><img src="https://erikstmartin.com/img/vkubelet/kubelet.png" alt="kubelet" /></p>
+<p><img src="https://raw.githubusercontent.com/JonathanSimon123/blog-details/master/images/kubelet.png" alt="kubelet" /></p>
 
 <p>Kubernetes 在其控制平面内有许多组件，用于非常特定的目的。该Kubelet是运行在所有节点上管理Pod生命周期的代理。当Kubelet启动时，它会通过Kubernetes API 服务器将其自身添加为节点。然后，调度程序通过更新API中的pod资源并为nodeName属性分配值来为该节点分配工作。Kubelet会监视Kubernetes API服务器，以查看已nodeName分配的pod的任何更改。它通过在计划时创建新的pod，删除不再存在的pod以及更新作为卷安装的ConfigMaps和Secrets等相关资源来不断协调差异。</p>
 
@@ -259,7 +259,7 @@
 
 <p>我们实施的第一个提供程序是Azure容器实例，也称为ACI。如果您不熟悉此产品，它实际上就是pod作为服务。无需担心底层虚拟机或控制平面管理; 您只需要担心容器组定义，Azure将处理其余部分。您每秒支付容器运行的费用。</p>
 
-<p><img src="https://erikstmartin.com/img/vkubelet/vkubelet.png" alt="virtual-kubelet" /></p>
+<p><img src="https://raw.githubusercontent.com/JonathanSimon123/blog-details/master/images/vkubelet.png" alt="virtual-kubelet" /></p>
 
 <h3 id="我可以使用virtual-kubelet做什么">我可以使用Virtual Kubelet做什么？</h3>
 
