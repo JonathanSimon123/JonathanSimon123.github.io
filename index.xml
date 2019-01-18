@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>All rights reserved - 2018</copyright>
-    <lastBuildDate>Thu, 20 Dec 2018 20:05:47 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 18 Jan 2019 10:00:27 +0800</lastBuildDate>
     
 	<atom:link href="https://JonathanSimon123.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Virtual Kubelet</title>
+      <link>https://JonathanSimon123.github.io/virtual-kubelet/</link>
+      <pubDate>Fri, 18 Jan 2019 10:00:27 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/virtual-kubelet/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;快速部署虚拟节点&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>Pod 的一生</title>
