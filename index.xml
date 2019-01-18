@@ -24,6 +24,41 @@
     </item>
     
     <item>
+      <title>kubernetes面试题目(基础篇一) </title>
+      <link>https://JonathanSimon123.github.io/kubernetes%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E5%9F%BA%E7%A1%80%E7%AF%87%E4%B8%80/</link>
+      <pubDate>Wed, 26 Dec 2018 23:36:34 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/kubernetes%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E5%9F%BA%E7%A1%80%E7%AF%87%E4%B8%80/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;基础篇主要面向的初级、中级开发工程师职位，主要考察对k8s本身的理解。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kube Proxy</title>
+      <link>https://JonathanSimon123.github.io/kube-proxy/</link>
+      <pubDate>Fri, 21 Dec 2018 15:02:46 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/kube-proxy/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;每台机器上都运行一个 kube-proxy 服务，它监听 API server 中 service 和 endpoint 的变化情况，并通过 iptables 等来为服务配置负载均衡（仅支持 TCP 和 UDP）。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://JonathanSimon123.github.io/kubernetes/</link>
+      <pubDate>Thu, 20 Dec 2018 20:23:12 +0800</pubDate>
+      
+      <guid>https://JonathanSimon123.github.io/kubernetes/</guid>
+      <description>&lt;h4 id=&#34;kubernetes-简单介绍&#34;&gt;Kubernetes 简单介绍&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一： Service,Endpoints与Pod的关系&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
       <title>Pod 的一生</title>
       <link>https://JonathanSimon123.github.io/pod-%E7%9A%84%E4%B8%80%E7%94%9F/</link>
       <pubDate>Thu, 20 Dec 2018 20:05:47 +0800</pubDate>

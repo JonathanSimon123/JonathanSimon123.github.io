@@ -8,6 +8,21 @@
   </url>
   
   <url>
+    <loc>https://JonathanSimon123.github.io/kubernetes%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E5%9F%BA%E7%A1%80%E7%AF%87%E4%B8%80/</loc>
+    <lastmod>2018-12-26T23:36:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JonathanSimon123.github.io/kube-proxy/</loc>
+    <lastmod>2018-12-21T15:02:46+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://JonathanSimon123.github.io/kubernetes/</loc>
+    <lastmod>2018-12-20T20:23:12+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://JonathanSimon123.github.io/pod-%E7%9A%84%E4%B8%80%E7%94%9F/</loc>
     <lastmod>2018-12-20T20:05:47+08:00</lastmod>
   </url>
@@ -24,13 +39,26 @@
   </url>
   
   <url>
+    <loc>https://JonathanSimon123.github.io/tags/k8s/</loc>
+    <lastmod>2018-12-21T15:02:46+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://JonathanSimon123.github.io/post/</loc>
     <lastmod>2019-01-18T10:00:27+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://JonathanSimon123.github.io/tags/proxy/</loc>
+    <lastmod>2018-12-21T15:02:46+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://JonathanSimon123.github.io/tags/</loc>
+    <lastmod>2018-12-21T15:02:46+08:00</lastmod>
     <priority>0</priority>
   </url>
   
